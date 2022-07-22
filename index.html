@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enter login information</title>
+</head>
+
+<body>
+    <header>
+        <p id="demo"></p>
+    </header>
+    <form id="login">
+        <label for="firstname">First Name</label>
+        <input type="text" id="firstname">
+        <br>
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname">
+        <br>
+        <label for="age">Age</label>
+        <input type="text" id="age">
+        <br>
+        <label for="state">Select</label>
+        <select id="state">
+            <option value="null">select</option>
+            <option value="goa">Goa</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="punjab">Punjab</option>
+        </select>
+    </form>
+    <button type="button" id="submit" onclick="validate()">Submit</button>
+    <button type="button" id="reset" onclick="resetForm()">Reset</button>
+    <script>
+        function valName() {
+            let myFirstName = document.getElementById('firstname').value;
+            let myLastName = document.getElementById('lastname').value;
+            console.log(myFirstName + myLastName);
+            if ((myFirstName.length !== 0) && (myLastName.length !== 0)) {
+                console.log('not empty first name or last name');
+                //assume that first name and last name cant have numbers
+                for (let i = 0; i < myFirstName.length; i++) {
+                    if (!isNaN(Number(myFirstName[i]))) {
+                        alert('First name cant contain digits.')
+                        document.getElementById('firstname').value = '';
+                        return false;
+                    }
+                }
+                for (let i = 0; i < myLastName.length; i++) {
+                    if (!isNaN(Number(myLastName[i]))) {
+                        alert('Last name cant contain digits.')
+                        document.getElementById('lastname').value = '';
+                        return false;
+                    }
+                }
+                return true;
+
+            } else {
+                if (myFirstName.length === 0) {
+                    alert('First name cant be empty');
+                } else {
+                    alert('Last name cant be empty');
+                }
+                return false;
+            }
+        }
+        function valAge() {
+            let myAge = document.getElementById('age').value;
+            if (myAge.length === 0) {
+                alert('age cant be empty');
+            } else {
+                if (isNaN(Number(myAge))) {
+                    alert('age must not contain any letters');
+                    document.getElementById('age').value = '';
+                    return false;
+                } else {
+                    if ((Number(myAge) < 18) || (Number(myAge) > 100)) {
+                        alert("This age is not acceptable");
+                        document.getElementById('age').value = '';
+                        return false;
+                    } else {
+                        console.log('valid age');
+                        return true;
+                    }
+                }
+            }
+        }
+        function valState() {
+            let myState = document.getElementById('state');
+            console.log(myState.value);
+            if (myState.value === 'null') {
+                alert('select a valid state');
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function validate() {
+            document.getElementById('demo').textContent = '';
+            let myFirstName = document.getElementById('firstname').value;
+            let myLastName = document.getElementById('lastname').value;
+            let myAge = document.getElementById('age').value;
+            let myState = document.getElementById('state').value;
+            if ((valName()) && (valAge()) && (valState())) {
+                console.log('first and last names are valid here');
+                let newPara = document.createElement('div');
+                let newParaText = document.createTextNode('welcome ' + myFirstName + ' ' + myLastName + '. You are ' + myAge + 'years old. You come from ' + myState + '.');
+                newPara.appendChild(newParaText);
+                document.getElementById('demo').appendChild(newPara);
+            }
+        }
+        function resetForm() {
+            document.getElementById('demo').textContent = '';
+            let myForm = document.getElementById('login');
+            myForm.reset();
+        }
+    </script>
+</body>
+
+</html>
